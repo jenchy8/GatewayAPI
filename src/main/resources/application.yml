@@ -1,7 +1,7 @@
-apps:
-  uri:
-    template-service-single: http://localhost:8081/templateservice
-    template-service-multi: http://localhost:8082/templateservice
+hosts:
+  services:
+    template-service: http://localhost:8081
+    template-multi-service: http://localhost:8082
 
 spring:
   jmx:
@@ -9,14 +9,14 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: template_service_single
-        uri: ${apps.uri.template-service-single}
+      - id: template-service-single
+        uri: ${hosts.services.template-service}
         predicates:
-        - Path=/single
-      - id: template_service_multi
-        uri: ${apps.uri.template-service-multi}
+        - Path=/templateservice/**
+      - id: template-service-multi
+        uri: ${hosts.services.template-multi-service}
         predicates:
-        - Path=/multi
+        - Path=/templatemultiservice/**
 
 logging:
   level:
