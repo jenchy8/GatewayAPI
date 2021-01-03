@@ -1,0 +1,29 @@
+apps:
+  uri:
+    template-service-single: http://localhost:8081/templateservice
+    template-service-multi: http://localhost:8082/templateservice
+
+spring:
+  jmx:
+    enabled: false
+  cloud:
+    gateway:
+      routes:
+      - id: template_service_single
+        uri: ${apps.uri.template-service-single}
+        predicates:
+        - Path=/single
+      - id: template_service_multi
+        uri: ${apps.uri.template-service-multi}
+        predicates:
+        - Path=/multi
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG
+
+management.endpoints.web.exposure.include: '*'
